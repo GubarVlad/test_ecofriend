@@ -1,0 +1,753 @@
+/* ===== New Features Styles ===== */
+/* Quests, Shop, Leaderboard, Battles, Eco Footprint, Themes */
+
+/* ===== Quests Screen ===== */
+.streak-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #ff6b35, #f7931e);
+  border-radius: var(--radius-full);
+  color: white;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.streak-icon {
+  font-size: 18px;
+  animation: flame 1s ease-in-out infinite;
+}
+
+@keyframes flame {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+.section-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.quests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.quest-card {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  border: 2px solid transparent;
+  transition: var(--transition);
+}
+
+.quest-card.completed {
+  border-color: var(--primary);
+  opacity: 0.8;
+}
+
+.quest-icon {
+  font-size: 40px;
+  flex-shrink: 0;
+}
+
+.quest-info {
+  flex: 1;
+}
+
+.quest-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.quest-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+
+.quest-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quest-progress-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.quest-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-full);
+  transition: width 0.5s ease;
+}
+
+.quest-progress-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.quest-reward {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.reward-item {
+  padding: 6px 12px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-full);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.quest-badge {
+  padding: 6px 12px;
+  background: var(--primary);
+  color: white;
+  border-radius: var(--radius-full);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ===== Shop Screen ===== */
+.ecocoins-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  border-radius: var(--radius-full);
+  color: #333;
+  font-weight: 700;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
+}
+
+.coin-icon {
+  font-size: 18px;
+  animation: coin-spin 2s ease-in-out infinite;
+}
+
+@keyframes coin-spin {
+  0%, 100% { transform: rotateY(0deg); }
+  50% { transform: rotateY(180deg); }
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 640px) {
+  .shop-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.shop-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 2px solid transparent;
+  transition: var(--transition);
+}
+
+.shop-item.unlocked {
+  border-color: var(--primary);
+}
+
+.shop-item.active {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1));
+}
+
+.shop-item-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+}
+
+.shop-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.btn-shop-item {
+  width: 100%;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--primary);
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn-shop-item:hover {
+  background: var(--primary-dark);
+  transform: scale(1.05);
+}
+
+.btn-shop-item.active {
+  background: var(--bg-tertiary);
+  color: var(--primary);
+  cursor: default;
+}
+
+.btn-shop-item.locked {
+  background: var(--bg-tertiary);
+  color: var(--text-tertiary);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* ===== Leaderboard Screen ===== */
+.leaderboard-select {
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.leaderboard-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.leaderboard-item.current-user {
+  border: 2px solid var(--primary);
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.05), rgba(16, 185, 129, 0.05));
+}
+
+.leaderboard-rank {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  min-width: 40px;
+  text-align: center;
+}
+
+.leaderboard-avatar {
+  font-size: 32px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+}
+
+.leaderboard-info {
+  flex: 1;
+}
+
+.leaderboard-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.leaderboard-stats {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.leaderboard-points {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ===== Battles Screen ===== */
+.battle-card {
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(99, 102, 241, 0.1));
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+}
+
+.battle-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.battle-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.battle-timer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.timer-icon {
+  font-size: 16px;
+}
+
+.battle-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.battle-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: var(--radius);
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.battle-prize {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background: rgba(255, 215, 0, 0.2);
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+
+.prize-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.prize-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.battle-leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.battle-rank-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-primary);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.rank-badge {
+  font-size: 24px;
+  min-width: 40px;
+  text-align: center;
+}
+
+.rank-name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.rank-score {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ===== Eco Footprint ===== */
+.ecocoins-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 237, 78, 0.1));
+  pointer-events: none;
+  border: 2px solid #ffd700;
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+}
+
+.ecocoins-card .btn {
+  pointer-events: auto;
+}
+
+.ecocoins-icon {
+  font-size: 48px;
+}
+
+.ecocoins-info {
+  flex: 1;
+}
+
+.ecocoins-label {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.ecocoins-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+}
+
+.eco-footprint-card {
+  padding: 20px;
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(16, 185, 129, 0.1));
+  border: 2px solid var(--primary);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 20px;
+  /* FIXED: Ensure touch events work on Safari iPhone */
+  -webkit-tap-highlight-color: rgba(34, 197, 94, 0.2);
+  touch-action: manipulation;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.eco-footprint-card:hover,
+.eco-footprint-card:active {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-lg);
+}
+
+.footprint-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.footprint-card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.footprint-preview {
+  display: flex;
+  gap: 24px;
+}
+
+.footprint-preview-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.footprint-preview-item span:first-child {
+  font-size: 24px;
+}
+
+.footprint-hero {
+  text-align: center;
+  padding: 32px 20px;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+  color: white;
+}
+
+.footprint-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+}
+
+.footprint-hero h2 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.footprint-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.footprint-card {
+  padding: 20px;
+  background: var(--bg-secondary);
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.footprint-card-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.footprint-card-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.footprint-card-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ===== Eco Fact Toast (FIXED: Above navbar) ===== */
+.eco-fact-toast {
+  position: fixed;
+  top: 80px; /* Below navbar */
+  left: 50%;
+  transform: translateX(-50%) translateY(-100px);
+  max-width: 90%;
+  width: auto;
+  max-width: 400px;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  color: white;
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 8px 16px rgba(34, 197, 94, 0.3);
+  z-index: 10000; /* Above navbar (navbar is 9999) */
+  opacity: 0;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+}
+
+.eco-fact-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.eco-fact-toast .eco-fact-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eco-fact-toast .eco-fact-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.eco-fact-toast .eco-fact-text {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+/* ===== Eco Fact Modal ===== */
+#eco-fact-modal {
+  display: none; /* Hidden by default */
+  align-items: center;
+  justify-content: center;
+  z-index: 10001; /* Above everything */
+  pointer-events: none;
+}
+
+#eco-fact-modal.show {
+  display: flex;
+  pointer-events: auto;
+}
+
+.eco-fact-content {
+  max-width: 360px;
+  padding: 32px 24px;
+  text-align: center;
+  border-radius: var(--radius-xl);
+  margin: auto;
+  position: relative;
+}
+
+.eco-fact-modal .eco-fact-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  animation: grow 0.5s ease;
+}
+
+@keyframes grow {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+.eco-fact-content h3 {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  color: var(--primary);
+}
+
+.eco-fact-modal .eco-fact-text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
+}
+
+/* ===== Loading State ===== */
+.loading-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+}
+
+.loading-state::after {
+  content: '...';
+  animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* ===== Theme Support ===== */
+[data-theme="dark"] {
+  --bg-primary: #1f2937;
+  --bg-secondary: #111827;
+  --bg-tertiary: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --text-tertiary: #9ca3af;
+  --border: #374151;
+}
+
+[data-theme="nature"] {
+  --primary: #059669;
+  --primary-dark: #047857;
+  --secondary: #10b981;
+  --bg-primary: #f0fdf4;
+  --bg-secondary: #dcfce7;
+  --bg-tertiary: #bbf7d0;
+}
+
+[data-theme="ocean"] {
+  --primary: #0284c7;
+  --primary-dark: #0369a1;
+  --secondary: #06b6d4;
+  --bg-primary: #f0f9ff;
+  --bg-secondary: #e0f2fe;
+  --bg-tertiary: #bae6fd;
+}
+
+[data-theme="sunset"] {
+  --primary: #ea580c;
+  --primary-dark: #c2410c;
+  --secondary: #f59e0b;
+  --bg-primary: #fff7ed;
+  --bg-secondary: #ffedd5;
+  --bg-tertiary: #fed7aa;
+}
+
+/* ===== Responsive Navigation ===== */
+@media (max-width: 640px) {
+  .bottom-nav {
+    padding: 4px;
+  }
+
+  .nav-item {
+    padding: 6px 4px;
+    font-size: 11px;
+  }
+
+  .nav-item svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-item span {
+    font-size: 10px;
+  }
+}
+
+/* ===== Accessibility ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+  .bottom-nav,
+  .btn,
+  .scanner-controls {
+    display: none !important;
+  }
+}

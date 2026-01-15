@@ -1,0 +1,1134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#22c55e">
+  
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="EcoFriend">
+  <meta name="application-name" content="EcoFriend">
+  <meta name="msapplication-TileColor" content="#22c55e">
+  <meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+  
+  <title>EcoFriend - Экологичное будущее</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="features.css">
+</head>
+<body>
+  
+  <!-- Welcome Screen -->
+  <div id="welcome-screen" class="screen active">
+    <div class="welcome-content">
+      <div class="logo-large">
+        <div class="logo-icon">🌱</div>
+      </div>
+      <h1 class="welcome-title">EcoFriend</h1>
+      <p class="welcome-subtitle">Сканируй отходы, зарабатывай баллы<br>и делай мир чище</p>
+      
+      <div class="welcome-actions">
+        <button class="btn btn-primary" id="btn-get-started">Начать</button>
+        <button class="btn btn-secondary" id="btn-have-account">У меня есть аккаунт</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Registration Screen -->
+  <div id="register-screen" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" id="btn-back-from-register">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <h2>Регистрация</h2>
+      <div></div>
+    </div>
+    
+    <div class="screen-content">
+      <form id="register-form" class="form">
+        <div class="form-group">
+          <label for="register-name">Имя</label>
+          <input type="text" id="register-name" placeholder="Введите ваше имя" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="register-email">Email</label>
+          <input type="email" id="register-email" placeholder="example@mail.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="register-password">Пароль</label>
+          <input type="password" id="register-password" placeholder="Минимум 6 символов" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full">Создать аккаунт</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Screen -->
+  <div id="login-screen" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" id="btn-back-from-login">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <h2>Вход</h2>
+      <div></div>
+    </div>
+    
+    <div class="screen-content">
+      <form id="login-form" class="form">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" placeholder="example@mail.com" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="login-password">Пароль</label>
+          <input type="password" id="login-password" placeholder="Введите пароль" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-full">Войти</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main App Screen -->
+  <div id="main-screen" class="screen">
+    <div class="screen-header">
+      <h2>Главная</h2>
+      <div class="header-actions">
+        <!-- FIXED: Added streak display on main screen -->
+        <div class="streak-mini" id="main-streak-badge" style="display: none;">
+          <span class="streak-icon-mini">🔥</span>
+          <span id="main-streak-days">0</span>
+        </div>
+        <button class="btn-icon" id="btn-notifications">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/>
+          </svg>
+          <span id="pending-scans-badge">0</span>
+        </button>
+      </div>
+    </div>
+    
+    <div class="screen-content">
+      <!-- User Card -->
+      <div class="user-card">
+        <div class="user-avatar">
+          <span id="user-avatar-text">U</span>
+        </div>
+        <div class="user-info">
+          <h3 id="user-name-display">Пользователь</h3>
+          <p class="user-level">Уровень <span id="user-level">1</span></p>
+        </div>
+        <div class="user-points">
+          <div class="points-value" id="user-points">0</div>
+          <div class="points-label">баллов</div>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-card">
+        <div class="progress-info">
+          <span>До следующего уровня</span>
+          <span><span id="progress-current">0</span> / <span id="progress-max">300</span></span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">🧃</div>
+          <div class="stat-value" id="stat-plastic">0</div>
+          <div class="stat-label">Пластик</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📄</div>
+          <div class="stat-value" id="stat-paper">0</div>
+          <div class="stat-label">Бумага</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🍾</div>
+          <div class="stat-value" id="stat-glass">0</div>
+          <div class="stat-label">Стекло</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🥫</div>
+          <div class="stat-value" id="stat-metal">0</div>
+          <div class="stat-label">Металл</div>
+        </div>
+      </div>
+
+      <!-- Scan Button -->
+      <div class="scan-button-container">
+        <button class="btn-scan" id="btn-scan">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <span>Сканировать отходы</span>
+        </button>
+        <button class="btn-scan secondary" id="btn-scan-barcode">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect>
+            <line x1="7" y1="8" x2="7" y2="16"></line>
+            <line x1="11" y1="8" x2="11" y2="16"></line>
+            <line x1="15" y1="8" x2="15" y2="16"></line>
+            <line x1="19" y1="8" x2="19" y2="16"></line>
+          </svg>
+          <span>Сканировать по штрихкоду</span>
+        </button>
+        <button class="btn-scan secondary" id="btn-recycling-guide">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+          <span>Инструкции по переработке</span>
+        </button>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="section-header">
+        <h3>Недавняя активность</h3>
+      </div>
+      <div class="activity-list" id="activity-list">
+        <div class="empty-state">
+          <p>Пока нет активности</p>
+          <p class="empty-state-hint">Отсканируйте ваш первый предмет!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scanner Screen -->
+  <div id="scanner-screen" class="screen">
+    <div class="scanner-header">
+      <button class="btn-close" id="btn-close-scanner">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="scanner-content">
+      <div class="camera-container" id="camera-container">
+        <div class="camera-placeholder" id="camera-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          <p>Инициализация камеры...</p>
+        </div>
+        <div class="scan-frame"></div>
+      </div>
+      
+      <div class="scanner-result" id="scanner-result"></div>
+      
+      <div class="scanner-controls">
+        <button class="btn btn-primary btn-capture" id="btn-capture" disabled>
+          <span>Сфотографировать</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barcode Scanner Screen -->
+  <div id="barcode-screen" class="screen">
+    <div class="scanner-header">
+      <button class="btn-close" id="btn-close-barcode">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="scanner-content">
+      <div class="camera-container" id="barcode-camera-container">
+        <div class="camera-placeholder" id="barcode-placeholder">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="16" rx="2" ry="2"></rect>
+            <line x1="7" y1="8" x2="7" y2="16"></line>
+            <line x1="11" y1="8" x2="11" y2="16"></line>
+            <line x1="15" y1="8" x2="15" y2="16"></line>
+            <line x1="19" y1="8" x2="19" y2="16"></line>
+          </svg>
+          <p>Наведите камеру на штрихкод</p>
+        </div>
+        <div class="scan-frame"></div>
+      </div>
+
+      <div class="scanner-result" id="barcode-result" style="display: none;">
+        <div class="barcode-product-header">
+          <h3 id="barcode-product-name">—</h3>
+          <div class="barcode-waste-badge" id="barcode-waste-badge">—</div>
+        </div>
+        
+        <div class="barcode-info-section">
+          <div class="barcode-info-row">
+            <span class="label">Тип отходов:</span>
+            <span id="barcode-waste-type" class="waste-type-value">—</span>
+          </div>
+          <div class="barcode-info-row" id="barcode-plastic-row" style="display: none;">
+            <span class="label">Тип пластика:</span>
+            <span id="barcode-plastic-type">—</span>
+          </div>
+          <div class="barcode-info-row">
+            <span class="label">Эко-оценка:</span>
+            <span id="barcode-green-score" class="green-score-value">—</span>
+          </div>
+          <div class="barcode-info-row">
+            <span class="label">Воздействие:</span>
+            <span id="barcode-impact">—</span>
+          </div>
+        </div>
+
+        <div class="recycling-tips" id="barcode-recycling-tips" style="display: none;">
+          <h4>♻️ Советы по переработке</h4>
+          <p id="barcode-recycling-advice">—</p>
+        </div>
+
+        <div class="barcode-actions">
+          <button class="btn btn-primary btn-full" id="btn-save-barcode-scan" style="display: none;">
+            Сохранить скан
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Screen -->
+  <div id="stats-screen" class="screen">
+    <div class="screen-header">
+      <h2>Статистика</h2>
+      <div class="period-selector">
+        <button class="period-btn active" data-period="7">7 дней</button>
+        <button class="period-btn" data-period="30">30 дней</button>
+        <button class="period-btn" data-period="all">Всё время</button>
+      </div>
+    </div>
+    
+    <div class="screen-content">
+      <div class="stats-summary">
+        <div class="summary-card">
+          <div class="summary-icon">📊</div>
+          <div class="summary-content">
+            <div class="summary-value" id="total-items">0</div>
+            <div class="summary-label">Всего предметов</div>
+          </div>
+        </div>
+        
+        <div class="summary-card">
+          <div class="summary-icon">⚖️</div>
+          <div class="summary-content">
+            <div class="summary-value" id="total-weight">0 кг</div>
+            <div class="summary-label">Общий вес</div>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="summary-icon">🏆</div>
+          <div class="summary-content">
+            <div class="summary-value" id="total-points-stats">0</div>
+            <div class="summary-label">Всего баллов</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h3>Активность за период</h3>
+      </div>
+
+      <div class="activity-chart" id="activity-chart">
+        <div class="chart-bars" id="chart-bars">
+          <!-- Bars will be generated dynamically -->
+        </div>
+        <div class="chart-legend">
+          <span>🧃 Пластик</span>
+          <span>📄 Бумага</span>
+          <span>🍾 Стекло</span>
+          <span>🥫 Металл</span>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h3>По типам отходов</h3>
+      </div>
+
+      <div class="waste-breakdown">
+        <div class="waste-item">
+          <div class="waste-item-row">
+            <div class="waste-item-left">
+              <span class="waste-icon">🧃</span>
+              <span class="waste-name">Пластик</span>
+            </div>
+            <div class="waste-item-right">
+              <span class="waste-count" id="breakdown-plastic">0</span>
+              <span class="waste-points" id="breakdown-plastic-points">0 б</span>
+            </div>
+          </div>
+          <div class="waste-progress">
+            <div class="waste-progress-bar" id="progress-plastic" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="waste-item">
+          <div class="waste-item-row">
+            <div class="waste-item-left">
+              <span class="waste-icon">📄</span>
+              <span class="waste-name">Бумага</span>
+            </div>
+            <div class="waste-item-right">
+              <span class="waste-count" id="breakdown-paper">0</span>
+              <span class="waste-points" id="breakdown-paper-points">0 б</span>
+            </div>
+          </div>
+          <div class="waste-progress">
+            <div class="waste-progress-bar" id="progress-paper" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="waste-item">
+          <div class="waste-item-row">
+            <div class="waste-item-left">
+              <span class="waste-icon">🍾</span>
+              <span class="waste-name">Стекло</span>
+            </div>
+            <div class="waste-item-right">
+              <span class="waste-count" id="breakdown-glass">0</span>
+              <span class="waste-points" id="breakdown-glass-points">0 б</span>
+            </div>
+          </div>
+          <div class="waste-progress">
+            <div class="waste-progress-bar" id="progress-glass" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="waste-item">
+          <div class="waste-item-row">
+            <div class="waste-item-left">
+              <span class="waste-icon">🥫</span>
+              <span class="waste-name">Металл</span>
+            </div>
+            <div class="waste-item-right">
+              <span class="waste-count" id="breakdown-metal">0</span>
+              <span class="waste-points" id="breakdown-metal-points">0 б</span>
+            </div>
+          </div>
+          <div class="waste-progress">
+            <div class="waste-progress-bar" id="progress-metal" style="width: 0%"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h3>История сканирований</h3>
+      </div>
+      
+      <div class="scan-history" id="scan-history">
+        <div class="empty-state">
+          <p>История пуста</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Настройки</h3>
+        <button class="btn-close-modal" id="btn-close-settings">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="settings-section">
+          <h4>Синхронизация</h4>
+          
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Автоматическая синхронизация</span>
+              <small>Синхронизировать данные с облаком автоматически</small>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="setting-auto-sync" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Интервал синхронизации</span>
+              <small>Как часто синхронизировать данные</small>
+            </div>
+            <select id="setting-sync-interval" class="setting-select">
+              <option value="5">Каждые 5 минут</option>
+              <option value="15">Каждые 15 минут</option>
+              <option value="30" selected>Каждые 30 минут</option>
+              <option value="60">Каждый час</option>
+            </select>
+          </div>
+
+          <button class="btn btn-secondary btn-full" id="btn-manual-sync">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+            </svg>
+            Синхронизировать сейчас
+          </button>
+        </div>
+
+        <div class="settings-section">
+          <h4>Сканирование</h4>
+          
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Подтверждение распознавания</span>
+              <small>Спрашивать подтверждение после каждого сканирования</small>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="setting-confirm-scans" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>Язык / Language</h4>
+          
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Язык интерфейса / Interface Language</span>
+              <small>Выберите язык приложения / Select app language</small>
+            </div>
+            <select id="setting-language" class="setting-select">
+              <option value="ru">Русский (Russian)</option>
+              <option value="en">English</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>Уведомления</h4>
+          
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Уведомления</span>
+              <small>Показывать уведомления о действиях</small>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="setting-notifications" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Звук</span>
+              <small>Звуковые эффекты при сканировании</small>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="setting-sound" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-item">
+            <div class="setting-label">
+              <span>Вибрация</span>
+              <small>Вибрация при действиях</small>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="setting-vibration" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>О приложении</h4>
+          <div class="info-item">
+            <span>Версия</span>
+            <span>1.0.0</span>
+          </div>
+          <div class="info-item">
+            <span>Хранилище</span>
+            <span id="storage-info">Загрузка...</span>
+          </div>
+          <div class="info-item">
+            <span>Несинхронизированных сканирований</span>
+            <span id="pending-scans-info">0</span>
+          </div>
+        </div>
+
+        <button class="btn btn-secondary btn-full" id="btn-clear-cache">Очистить кэш</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Screen -->
+  <div id="profile-screen" class="screen">
+    <div class="screen-header">
+      <h2>Профиль</h2>
+      <button class="btn-icon" id="btn-settings">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+        </svg>
+      </button>
+    </div>
+    
+    <div class="screen-content">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <span id="profile-avatar-text">U</span>
+        </div>
+        <h3 id="profile-name">Пользователь</h3>
+        <p id="profile-email">email@example.com</p>
+      </div>
+
+      <div class="profile-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-value" id="profile-level">1</div>
+          <div class="profile-stat-label">Уровень</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value" id="profile-points">0</div>
+          <div class="profile-stat-label">Баллов</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value" id="profile-items">0</div>
+          <div class="profile-stat-label">Предметов</div>
+        </div>
+      </div>
+
+      <!-- EcoCoins Balance -->
+      <div class="ecocoins-card">
+        <div class="ecocoins-icon">💰</div>
+        <div class="ecocoins-info">
+          <div class="ecocoins-label">ЭкоМонеты</div>
+          <div class="ecocoins-value" id="profile-ecocoins">0</div>
+        </div>
+        <button class="btn btn-primary" id="btn-view-shop">Магазин</button>
+      </div>
+
+      <!-- Eco Footprint Card -->
+      <div class="eco-footprint-card" id="btn-view-footprint">
+        <div class="footprint-card-header">
+          <h3>🌍 Экологический след</h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </div>
+        <div class="footprint-preview">
+          <div class="footprint-preview-item">
+            <span>☁️</span>
+            <span id="preview-co2">0 кг CO₂</span>
+          </div>
+          <div class="footprint-preview-item">
+            <span>🌳</span>
+            <span id="preview-trees">0 деревьев</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header">
+        <h3>Достижения</h3>
+      </div>
+      
+      <div class="achievements">
+        <div class="achievement-card locked">
+          <div class="achievement-icon">🌱</div>
+          <div class="achievement-info">
+            <div class="achievement-name">Новичок</div>
+            <div class="achievement-desc">Отсканируй первый предмет</div>
+          </div>
+        </div>
+        
+        <div class="achievement-card locked">
+          <div class="achievement-icon">♻️</div>
+          <div class="achievement-info">
+            <div class="achievement-name">Эко-герой</div>
+            <div class="achievement-desc">Набери 100 баллов</div>
+          </div>
+        </div>
+        
+        <div class="achievement-card locked">
+          <div class="achievement-icon">🏆</div>
+          <div class="achievement-info">
+            <div class="achievement-name">Мастер</div>
+            <div class="achievement-desc">Достигни 5 уровня</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-danger btn-full" id="btn-logout">Выйти</button>
+    </div>
+  </div>
+
+  <!-- Quests Screen -->
+  <div id="quests-screen" class="screen">
+    <div class="screen-header">
+      <h2>Квесты</h2>
+      <div class="streak-badge">
+        <span class="streak-icon">🔥</span>
+        <span id="streak-days">0</span>
+      </div>
+    </div>
+    
+    <div class="screen-content">
+      <div class="section-header">
+        <h3>Ежедневные квесты</h3>
+        <p class="section-desc">Обновляются каждый день</p>
+      </div>
+      
+      <div class="quests-list" id="daily-quests-list">
+        <!-- Quests will be generated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Shop Screen -->
+  <div id="shop-screen" class="screen">
+    <div class="screen-header">
+      <h2>Магазин</h2>
+      <div class="ecocoins-badge">
+        <span class="coin-icon">💰</span>
+        <span id="shop-balance">0</span>
+      </div>
+    </div>
+    
+    <div class="screen-content">
+      <div class="section-header">
+        <h3>Темы оформления</h3>
+      </div>
+      
+      <div class="shop-grid" id="themes-grid">
+        <!-- Themes will be generated dynamically -->
+      </div>
+
+      <div class="section-header">
+        <h3>Аватары</h3>
+      </div>
+      
+      <div class="shop-grid" id="avatars-grid">
+        <!-- Avatars will be generated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaderboard Screen -->
+  <div id="leaderboard-screen" class="screen">
+    <div class="screen-header">
+      <h2>Таблица лидеров</h2>
+      <select id="leaderboard-type" class="leaderboard-select">
+        <option value="global">Весь мир</option>
+        <option value="region">Регион</option>
+        <option value="friends">Друзья</option>
+      </select>
+    </div>
+    
+    <div class="screen-content">
+      <div class="leaderboard-list" id="leaderboard-list">
+        <!-- Leaderboard will be generated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Battles Screen -->
+  <div id="battles-screen" class="screen">
+    <div class="screen-header">
+      <h2>Битвы</h2>
+      <div></div>
+    </div>
+    
+    <div class="screen-content">
+      <div class="battle-card active">
+        <div class="battle-header">
+          <h3>⚔️ Еженедельная битва</h3>
+          <div class="battle-timer" id="battle-timer">
+            <span class="timer-icon">⏰</span>
+            <span id="battle-time-left">3 дня 12 часов</span>
+          </div>
+        </div>
+        
+        <div class="battle-stats">
+          <div class="battle-stat">
+            <span class="stat-label">Участников</span>
+            <span class="stat-value" id="battle-participants">0</span>
+          </div>
+          <div class="battle-stat">
+            <span class="stat-label">Ваше место</span>
+            <span class="stat-value" id="battle-rank">-</span>
+          </div>
+          <div class="battle-stat">
+            <span class="stat-label">Ваш счет</span>
+            <span class="stat-value" id="battle-score">0</span>
+          </div>
+        </div>
+        
+        <div class="battle-prize">
+          <span class="prize-label">Награда победителю</span>
+          <span class="prize-value">1000 ЭкоМонет 💰</span>
+        </div>
+        
+        <button class="btn btn-primary btn-full" id="btn-join-battle">
+          Присоединиться к битве
+        </button>
+      </div>
+
+      <div class="section-header">
+        <h3>Топ участников</h3>
+      </div>
+      
+      <div class="battle-leaderboard" id="battle-leaderboard">
+        <!-- Battle leaderboard will be generated dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Recycling Guide Screen -->
+  <div id="recycling-guide-screen" class="screen">
+    <div class="screen-header">
+      <button class="btn-back" data-screen="main">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+      </button>
+      <h2>Инструкции по переработке</h2>
+    </div>
+    <div class="screen-content recycling-guide-content">
+      <div class="recycling-category" data-type="plastic">
+        <div class="category-header">
+          <div class="category-icon">🧃</div>
+          <h3>Пластик</h3>
+        </div>
+        <div class="category-content">
+          <p class="category-description">Пластик - один из самых распространенных видов отходов. Важно правильно его сортировать.</p>
+          <div class="recycling-tips">
+            <h4>Как перерабатывать:</h4>
+            <ul>
+              <li>Промойте упаковку перед сдачей</li>
+              <li>Удалите этикетки и крышки</li>
+              <li>Сдавите бутылки для экономии места</li>
+              <li>Проверьте маркировку (1-7) на упаковке</li>
+            </ul>
+          </div>
+          <div class="plastic-types">
+            <h4>Типы пластика:</h4>
+            <div class="plastic-type-item"><strong>PET (1)</strong> - Полиэтилентерефталат. Бутылки для напитков. Хорошо перерабатывается.</div>
+            <div class="plastic-type-item"><strong>HDPE (2)</strong> - Полиэтилен высокой плотности. Канистры, бутылки для молока. Легко перерабатывается.</div>
+            <div class="plastic-type-item"><strong>PVC (3)</strong> - Поливинилхлорид. Трубы, окна. Перерабатывается редко.</div>
+            <div class="plastic-type-item"><strong>LDPE (4)</strong> - Полиэтилен низкой плотности. Пакеты, пленка. Перерабатывается ограниченно.</div>
+            <div class="plastic-type-item"><strong>PP (5)</strong> - Полипропилен. Контейнеры, крышки. Хорошо перерабатывается.</div>
+            <div class="plastic-type-item"><strong>PS (6)</strong> - Полистирол. Пенопласт, одноразовая посуда. Перерабатывается редко.</div>
+            <div class="plastic-type-item"><strong>Other (7)</strong> - Другие виды. Проверьте местные правила.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="recycling-category" data-type="paper">
+        <div class="category-header">
+          <div class="category-icon">📄</div>
+          <h3>Бумага и картон</h3>
+        </div>
+        <div class="category-content">
+          <p class="category-description">Бумага хорошо перерабатывается, но важно правильно подготовить ее к сдаче.</p>
+          <div class="recycling-tips">
+            <h4>Как перерабатывать:</h4>
+            <ul>
+              <li>Убедитесь, что бумага сухая</li>
+              <li>Удалите скотч и пластиковые элементы</li>
+              <li>Не сдавайте загрязненную бумагу (жир, краска)</li>
+              <li>Сдавите картонные коробки</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="recycling-category" data-type="glass">
+        <div class="category-header">
+          <div class="category-icon">🍾</div>
+          <h3>Стекло</h3>
+        </div>
+        <div class="category-content">
+          <p class="category-description">Стекло можно перерабатывать бесконечно без потери качества.</p>
+          <div class="recycling-tips">
+            <h4>Как перерабатывать:</h4>
+            <ul>
+              <li>Промойте бутылки и банки</li>
+              <li>Удалите крышки и пробки</li>
+              <li>Не разбивайте стекло - это усложняет переработку</li>
+              <li>Разделяйте по цветам (бесцветное, зеленое, коричневое)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="recycling-category" data-type="metal">
+        <div class="category-header">
+          <div class="category-icon">🥫</div>
+          <h3>Металл</h3>
+        </div>
+        <div class="category-content">
+          <p class="category-description">Металл полностью перерабатывается и может использоваться многократно.</p>
+          <div class="recycling-tips">
+            <h4>Как перерабатывать:</h4>
+            <ul>
+              <li>Промойте банки перед сдачей</li>
+              <li>Удалите этикетки</li>
+              <li>Разделяйте алюминий и сталь</li>
+              <li>Сдавите банки для экономии места</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="recycling-category" data-type="organic">
+        <div class="category-header">
+          <div class="category-icon">🍃</div>
+          <h3>Органика</h3>
+        </div>
+        <div class="category-content">
+          <p class="category-description">Органические отходы можно компостировать для создания удобрений.</p>
+          <div class="recycling-tips">
+            <h4>Как компостировать:</h4>
+            <ul>
+              <li>Используйте компостную яму или контейнер</li>
+              <li>Смешивайте с сухими материалами (листья, опилки)</li>
+              <li>Регулярно переворачивайте компост</li>
+              <li>Поддерживайте влажность</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Eco Footprint Modal -->
+  <div id="footprint-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Экологический след</h3>
+        <button class="btn-close-modal" id="btn-close-footprint">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <div class="footprint-hero">
+          <div class="footprint-icon">🌍</div>
+          <h2>Ваш вклад в защиту планеты</h2>
+        </div>
+
+        <div class="footprint-stats">
+          <div class="footprint-card">
+            <div class="footprint-card-icon">☁️</div>
+            <div class="footprint-card-value" id="co2-saved">0 кг</div>
+            <div class="footprint-card-label">CO₂ не попало в атмосферу</div>
+          </div>
+
+          <div class="footprint-card">
+            <div class="footprint-card-icon">🌳</div>
+            <div class="footprint-card-value" id="trees-saved">0</div>
+            <div class="footprint-card-label">Деревьев спасено</div>
+          </div>
+
+          <div class="footprint-card">
+            <div class="footprint-card-icon">💧</div>
+            <div class="footprint-card-value" id="water-saved">0 л</div>
+            <div class="footprint-card-label">Воды сэкономлено</div>
+          </div>
+
+          <div class="footprint-card">
+            <div class="footprint-card-icon">⚡</div>
+            <div class="footprint-card-value" id="energy-saved">0 кВт·ч</div>
+            <div class="footprint-card-label">Энергии сэкономлено</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-full" id="btn-share-footprint">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+            <polyline points="16 6 12 2 8 6"/>
+            <line x1="12" y1="2" x2="12" y2="15"/>
+          </svg>
+          Поделиться достижениями
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Eco Fact Modal -->
+  <div id="eco-fact-modal" class="modal">
+    <div class="modal-content eco-fact-content" onclick="event.stopPropagation()">
+      <div class="eco-fact-icon">🌱</div>
+      <h3>Знали ли вы?</h3>
+      <p class="eco-fact-text" id="eco-fact-text"></p>
+      <button class="btn btn-primary" id="btn-close-fact">Понятно</button>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="nav-item active" data-screen="main">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      <span>Главная</span>
+    </button>
+    
+    <button class="nav-item" data-screen="quests">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      <span>Квесты</span>
+    </button>
+    
+    <button class="nav-item" data-screen="shop">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="9" cy="21" r="1"/>
+        <circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+      <span>Магазин</span>
+    </button>
+    
+    <button class="nav-item" data-screen="stats">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="20" x2="12" y2="10"/>
+        <line x1="18" y1="20" x2="18" y2="4"/>
+        <line x1="6" y1="20" x2="6" y2="16"/>
+      </svg>
+      <span>Статистика</span>
+    </button>
+    
+    <button class="nav-item" data-screen="leaderboard">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="4" height="10"></rect>
+        <rect x="10" y="7" width="4" height="14"></rect>
+        <rect x="17" y="3" width="4" height="18"></rect>
+      </svg>
+      <span>Лидеры</span>
+    </button>
+    
+    <button class="nav-item" data-screen="profile">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      <span>Профиль</span>
+    </button>
+  </nav>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" id="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmation-modal" class="modal">
+    <div class="modal-content confirmation-modal">
+      <div class="confirmation-icon" id="confirmation-icon">✓</div>
+      <h3 id="confirmation-title">Распознано</h3>
+      <p id="confirmation-message">Это правильно?</p>
+      <div class="confirmation-buttons">
+        <button class="btn btn-secondary" id="btn-confirm-no">Нет, повторить</button>
+        <button class="btn btn-primary" id="btn-confirm-yes">Да, сохранить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manual Waste Type Modal -->
+  <div id="waste-type-modal" class="modal">
+    <div class="modal-content waste-type-modal">
+      <div class="modal-header">
+        <h3>Выберите тип отходов</h3>
+        <button class="btn-close-modal" id="btn-close-waste-modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="waste-options-grid">
+          <button class="waste-option" data-type="plastic">🧃 Пластик</button>
+          <button class="waste-option" data-type="glass">🍾 Стекло</button>
+          <button class="waste-option" data-type="paper">📄 Бумага</button>
+          <button class="waste-option" data-type="metal">🥫 Металл</button>
+          <button class="waste-option" data-type="organic">🍎 Органика</button>
+          <button class="waste-option" data-type="other">🗑️ Другое</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="constants.js"></script>
+  <script type="module" src="lang.js"></script>
+  <script type="module" src="firebase.js"></script>
+  <script type="module" src="storage.js"></script>
+  <script type="module" src="scanner.js"></script>
+  <script type="module" src="gamification.js"></script>
+  <script type="module" src="barcode.js"></script>
+  <script type="module" src="app-extensions.js"></script>
+  <script type="module" src="script.js"></script>
+  
+  <!-- PWA Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(registration => {
+            console.log('✅ Service Worker registered:', registration.scope);
+            
+            // Check for updates periodically
+            setInterval(() => {
+              registration.update();
+            }, 60000); // Check every minute
+          })
+          .catch(error => {
+            console.error('❌ Service Worker registration failed:', error);
+          });
+      });
+    }
+    
+    // Handle service worker updates
+    let refreshing = false;
+    navigator.serviceWorker?.addEventListener('controllerchange', () => {
+      if (refreshing) return;
+      refreshing = true;
+      window.location.reload();
+    });
+    
+    // Install prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      console.log('📱 PWA install prompt available');
+    });
+  </script>
+</body>
+</html>

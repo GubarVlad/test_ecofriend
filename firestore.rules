@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // User documents and subcollections
+    match /users/{userId} {
+      // Allow read/write to own user document
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow read/write to own scans subcollection
+      match /scans/{scanId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+      
+      // Allow read/write to own activities subcollection
+      match /activities/{activityId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+    
+    // Public collection
+    match /public/{docId} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+
+    // Public leaderboard collection (global rankings)
+    match /leaderboard/{userId} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
