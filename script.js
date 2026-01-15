@@ -1617,3 +1617,11 @@ if (document.readyState === 'loading') {
 }
 
 export default App;
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.btn-back').forEach(btn => {
+    btn.addEventListener('click', () => {
+      window.location.reload(); // Перезагрузка страницы
+    });
+  });
+});

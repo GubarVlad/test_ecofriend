@@ -11,7 +11,7 @@ class BarcodeScanner {
     this.scanCooldown = 3000; // Increased cooldown to prevent duplicate scans
     this.lastScanTime = 0;
   }
-
+  
   async init() {
     console.log('📦 Initializing barcode scanner...');
     await this.loadQuaggaJS();
