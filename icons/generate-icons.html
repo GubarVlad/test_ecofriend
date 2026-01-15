@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Generate EcoFriend Icons</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+    }
+    canvas {
+      border: 1px solid #ddd;
+      margin: 10px;
+    }
+    .download-btn {
+      background: #22c55e;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>EcoFriend Icon Generator</h1>
+  <p>Click the buttons below to generate and download PWA icons:</p>
+  
+  <div id="icons"></div>
+  
+  <script>
+    const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+    
+    function generateIcon(size) {
+      const canvas = document.createElement('canvas');
+      canvas.width = size;
+      canvas.height = size;
+      const ctx = canvas.getContext('2d');
+      
+      // Background
+      ctx.fillStyle = '#22c55e';
+      ctx.fillRect(0, 0, size, size);
+      
+      // Emoji (approximation with text)
+      ctx.fillStyle = 'white';
+      ctx.font = `${size * 0.6}px Arial`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🌱', size / 2, size / 2);
+      
+      return canvas;
+    }
+    
+    const container = document.getElementById('icons');
+    
+    sizes.forEach(size => {
+      const canvas = generateIcon(size);
+      const btn = document.createElement('button');
+      btn.className = 'download-btn';
+      btn.textContent = `Download ${size}x${size}`;
+      btn.onclick = () => {
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `icon-${size}x${size}.png`;
+          a.click();
+          URL.revokeObjectURL(url);
+        });
+      };
+      
+      container.appendChild(canvas);
+      container.appendChild(btn);
+      container.appendChild(document.createElement('br'));
+    });
+    
+    // Download all button
+    const downloadAll = document.createElement('button');
+    downloadAll.className = 'download-btn';
+    downloadAll.textContent = 'Download All Icons';
+    downloadAll.style.fontSize = '16px';
+    downloadAll.style.marginTop = '20px';
+    downloadAll.onclick = () => {
+      sizes.forEach((size, index) => {
+        setTimeout(() => {
+          const canvas = generateIcon(size);
+          canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `icon-${size}x${size}.png`;
+            a.click();
+            URL.revokeObjectURL(url);
+          });
+        }, index * 500);
+      });
+    };
+    container.appendChild(downloadAll);
+  </script>
+</body>
+</html>
